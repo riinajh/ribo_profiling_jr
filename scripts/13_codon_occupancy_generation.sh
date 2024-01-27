@@ -10,26 +10,25 @@
 #SBATCH --mail-user=jacob.riina@students.unibe.ch
 #SBATCH --mail-type=error,end
 
-./Codon_occupancy_cal.sh \
-raw_data/annotations/[GRCh38_APPRIS_CDS_18_SingleLine.fa] \
-raw_data/annotations/[RPF_KO_Rep1_clpd_tr_no_r_t_sno_sn_RNA_GRCh38_APPRIS_CDS.sam]
+cd scripts
+echo $PWD
+#mv ../raw_data/annotations/isoforms.fa ../raw_data/annotations/isoforms.fa.gz
+gunzip ../raw_data/annotations/isoforms.fa.gz
+
+awk '/^>/ { if(NR>1) print "";  printf("%s\n",$0); next; } { printf("%s",$0);}  END {printf("\n");}' < ../raw_data/annotations/isoforms.fa > ../raw_data/annotations/isoforms_single_line.fa
+
+. Codon_occupancy_cal.sh ../raw_data/annotations/isoforms_single_line.fa ../raw_data/annotations/KO_Rep1_clipped_trimmed._filtered_GRCh38_APPRIS_CDS.sam
 
 mv ./Codon_occupancy.txt ./RPF_KO_Rep1_Codon_occupancy.txt
 
-./Codon_occupancy_cal.sh \
-/PATH/reference/GRCh38_APPRIS_CDS_18_SingleLine.fa \
-/PATH/RPF_KO_Rep2_clpd_tr_no_r_t_sno_sn_RNA_GRCh38_APPRIS_CDS.sam
+. Codon_occupancy_cal.sh ../raw_data/annotations/isoforms_single_line.fa ../raw_data/annotations/KO_Rep2_clipped_trimmed._filtered_GRCh38_APPRIS_CDS.sam
 
 mv ./Codon_occupancy.txt ./RPF_KO_Rep2_Codon_occupancy.txt
 
-./Codon_occupancy_cal.sh \
-/PATH/reference/GRCh38_APPRIS_CDS_18_SingleLine.fa \
-/PATH/RPF_WT_Rep1_clpd_tr_no_r_t_sno_sn_RNA_GRCh38_APPRIS_CDS.sam
+. Codon_occupancy_cal.sh ../raw_data/annotations/isoforms_single_line.fa ../raw_data/annotations/WT_Rep1_clipped_trimmed._filtered_GRCh38_APPRIS_CDS.sam
 
 mv ./Codon_occupancy.txt ./RPF_WT_Rep1_Codon_occupancy.txt
 
-./Codon_occupancy_cal.sh \
-/PATH/reference/GRCh38_APPRIS_CDS_18_SingleLine.fa \
-/PATH/RPF_WT_Rep2_clpd_tr_no_r_t_sno_sn_RNA_GRCh38_APPRIS_CDS.sam
+. Codon_occupancy_cal.sh ../raw_data/annotations/isoforms_single_line.fa ../raw_data/annotations/WT_Rep2_clipped_trimmed._filtered_GRCh38_APPRIS_CDS.sam
 
 mv ./Codon_occupancy.txt ./RPF_WT_Rep2_Codon_occupancy.txt

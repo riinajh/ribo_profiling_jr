@@ -1,1 +1,84 @@
-{"payload":{"allShortcutsEnabled":false,"fileTree":{"":{"items":[{"name":"Codon_occupancy_cal.sh","path":"Codon_occupancy_cal.sh","contentType":"file"},{"name":"LICENSE","path":"LICENSE","contentType":"file"},{"name":"README.md","path":"README.md","contentType":"file"},{"name":"hg38_CDS_example.fa","path":"hg38_CDS_example.fa","contentType":"file"}],"totalCount":4}},"fileTreeProcessingTime":5.174869999999999,"foldersToFetch":[],"reducedMotionEnabled":null,"repo":{"id":390269493,"defaultBranch":"main","name":"Codon_occupancy_cal","ownerLogin":"LeidelLab","currentUserCanPush":false,"isFork":true,"isEmpty":false,"createdAt":"2021-07-28T08:13:57.000Z","ownerAvatar":"https://avatars.githubusercontent.com/u/73544709?v=4","public":true,"private":false,"isOrgOwned":true},"symbolsExpanded":false,"treeExpanded":true,"refInfo":{"name":"main","listCacheKey":"v0:1627460044.33375","canEdit":false,"refType":"branch","currentOid":"5145b4979f7bd04fbf5c67c047af7d12a7bb4fc2"},"path":"Codon_occupancy_cal.sh","currentUser":null,"blob":{"rawLines":["#!/bin/bash","#!/bin/awk -f","","","# This script is for calculating the codon occupancy of all codons (TGA,TAA and TAG excluded) in ribosome profiling data. ","","CDSFile=$1","SamFile=$2","  ","","awk 'BEGIN{FS=OFS=\"\\t\"} NR==FNR{","","     if($1~/>/){","     \tsplit($1,header,\">\")","     \tGene_name[NR]=header[2]","     }else{","     \tGene_length[Gene_name[NR-1]]=length($0)","     ","        seq[Gene_name[NR-1]]=$0","","     }","","}NR!=FNR && $1!~/^@/ && $3!=\"*\"{ ","","     if(length($10)<45){","","            ext=substr(seq[$3],$4+length($10),30)  # extend reads","","            seq_ext=$10\"\"ext","             ","        }","     ","     if($4%3==1){frame=0}else if($4%3==2){frame=-1}else if($4%3==0){frame=1} ","","     if(length($10) >= 29 && length($10) <=31 && (frame==0 || frame==1)){ ","     ","        if($4+16+frame > 45 && $4+16+frame < Gene_length[$3]-45){ # 15 codons at the start and end of CDS are excluded","\t","     \t     print substr(seq_ext,16+frame,3), substr(seq_ext,31+frame,3), substr(seq_ext,34+frame,3), substr(seq_ext,37+frame,3) # A,+5,+6 and +7 sites","\t    }","     }","","}' $1 $2 | awk 'BEGIN{FS=OFS=\"\\t\"}{","","\t for(i=1;i<=4;i++){","","\t \tif($i!~/N/ && $i!=\"TGA\" && $i!=\"TAG\" && $i!=\"TAA\"){","\t \t\tsum[i]++","            Codon[i\"\\t\"$i]++","        } ","     }","","}END{","    for(j in Codon){","        ","        split(j,ja,\"\\t\")","        ","        # Normalized to the mean of +5, +6 and +7 sites","        if(ja[1]==1){ ","    \t   ","           fA=Codon[j]/sum[1]","           f1=Codon[2\"\\t\"ja[2]]/sum[2]","           f2=Codon[3\"\\t\"ja[2]]/sum[3]","           f3=Codon[4\"\\t\"ja[2]]/sum[4]","           print ja[2],fA*3/(f1+f2+f3)","","        }","    }","","}' > Codon_occupancy.txt"],"stylingDirectives":[[{"start":0,"end":11,"cssClass":"pl-c"},{"start":0,"end":2,"cssClass":"pl-c"}],[{"start":0,"end":13,"cssClass":"pl-c"},{"start":0,"end":2,"cssClass":"pl-c"}],[],[],[{"start":0,"end":122,"cssClass":"pl-c"},{"start":0,"end":1,"cssClass":"pl-c"}],[],[{"start":8,"end":10,"cssClass":"pl-smi"}],[{"start":8,"end":10,"cssClass":"pl-smi"}],[],[],[{"start":4,"end":32,"cssClass":"pl-s"},{"start":4,"end":5,"cssClass":"pl-pds"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":16,"cssClass":"pl-s"}],[{"start":0,"end":26,"cssClass":"pl-s"}],[{"start":0,"end":29,"cssClass":"pl-s"}],[{"start":0,"end":11,"cssClass":"pl-s"}],[{"start":0,"end":45,"cssClass":"pl-s"}],[{"start":0,"end":5,"cssClass":"pl-s"}],[{"start":0,"end":31,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":6,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":33,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":24,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":65,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":28,"cssClass":"pl-s"}],[{"start":0,"end":13,"cssClass":"pl-s"}],[{"start":0,"end":9,"cssClass":"pl-s"}],[{"start":0,"end":5,"cssClass":"pl-s"}],[{"start":0,"end":77,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":74,"cssClass":"pl-s"}],[{"start":0,"end":5,"cssClass":"pl-s"}],[{"start":0,"end":118,"cssClass":"pl-s"}],[{"start":0,"end":1,"cssClass":"pl-s"}],[{"start":0,"end":150,"cssClass":"pl-s"}],[{"start":0,"end":6,"cssClass":"pl-s"}],[{"start":0,"end":6,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":2,"cssClass":"pl-s"},{"start":1,"end":2,"cssClass":"pl-pds"},{"start":3,"end":5,"cssClass":"pl-smi"},{"start":6,"end":8,"cssClass":"pl-smi"},{"start":9,"end":10,"cssClass":"pl-k"},{"start":15,"end":35,"cssClass":"pl-s"},{"start":15,"end":16,"cssClass":"pl-pds"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":20,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":54,"cssClass":"pl-s"}],[{"start":0,"end":12,"cssClass":"pl-s"}],[{"start":0,"end":28,"cssClass":"pl-s"}],[{"start":0,"end":10,"cssClass":"pl-s"}],[{"start":0,"end":6,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":5,"cssClass":"pl-s"}],[{"start":0,"end":20,"cssClass":"pl-s"}],[{"start":0,"end":8,"cssClass":"pl-s"}],[{"start":0,"end":24,"cssClass":"pl-s"}],[{"start":0,"end":8,"cssClass":"pl-s"}],[{"start":0,"end":55,"cssClass":"pl-s"}],[{"start":0,"end":22,"cssClass":"pl-s"}],[{"start":0,"end":8,"cssClass":"pl-s"}],[{"start":0,"end":29,"cssClass":"pl-s"}],[{"start":0,"end":38,"cssClass":"pl-s"}],[{"start":0,"end":38,"cssClass":"pl-s"}],[{"start":0,"end":38,"cssClass":"pl-s"}],[{"start":0,"end":38,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":9,"cssClass":"pl-s"}],[{"start":0,"end":5,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":2,"cssClass":"pl-s"},{"start":1,"end":2,"cssClass":"pl-pds"},{"start":3,"end":4,"cssClass":"pl-k"}],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],"csv":null,"csvError":null,"dependabotInfo":{"showConfigurationBanner":false,"configFilePath":null,"networkDependabotPath":"/LeidelLab/Codon_occupancy_cal/network/updates","dismissConfigurationNoticePath":"/settings/dismiss-notice/dependabot_configuration_notice","configurationNoticeDismissed":null,"repoAlertsPath":"/LeidelLab/Codon_occupancy_cal/security/dependabot","repoSecurityAndAnalysisPath":"/LeidelLab/Codon_occupancy_cal/settings/security_analysis","repoOwnerIsOrg":true,"currentUserCanAdminRepo":false},"displayName":"Codon_occupancy_cal.sh","displayUrl":"https://github.com/LeidelLab/Codon_occupancy_cal/blob/main/Codon_occupancy_cal.sh?raw=true","headerInfo":{"blobSize":"1.56 KB","deleteInfo":{"deleteTooltip":"You must be signed in to make or propose changes"},"editInfo":{"editTooltip":"You must be signed in to make or propose changes"},"ghDesktopPath":"https://desktop.github.com","gitLfsPath":null,"onBranch":true,"shortPath":"3e60e2a","siteNavLoginPath":"/login?return_to=https%3A%2F%2Fgithub.com%2FLeidelLab%2FCodon_occupancy_cal%2Fblob%2Fmain%2FCodon_occupancy_cal.sh","isCSV":false,"isRichtext":false,"toc":null,"lineInfo":{"truncatedLoc":"84","truncatedSloc":"44"},"mode":"file"},"image":false,"isCodeownersFile":null,"isPlain":false,"isValidLegacyIssueTemplate":false,"issueTemplateHelpUrl":"https://docs.github.com/articles/about-issue-and-pull-request-templates","issueTemplate":null,"discussionTemplate":null,"language":"Shell","languageID":346,"large":false,"loggedIn":false,"newDiscussionPath":"/LeidelLab/Codon_occupancy_cal/discussions/new","newIssuePath":"/LeidelLab/Codon_occupancy_cal/issues/new","planSupportInfo":{"repoIsFork":null,"repoOwnedByCurrentUser":null,"requestFullPath":"/LeidelLab/Codon_occupancy_cal/blob/main/Codon_occupancy_cal.sh","showFreeOrgGatedFeatureMessage":null,"showPlanSupportBanner":null,"upgradeDataAttributes":null,"upgradePath":null},"publishBannersInfo":{"dismissActionNoticePath":"/settings/dismiss-notice/publish_action_from_dockerfile","dismissStackNoticePath":"/settings/dismiss-notice/publish_stack_from_file","releasePath":"/LeidelLab/Codon_occupancy_cal/releases/new?marketplace=true","showPublishActionBanner":false,"showPublishStackBanner":false},"rawBlobUrl":"https://github.com/LeidelLab/Codon_occupancy_cal/raw/main/Codon_occupancy_cal.sh","renderImageOrRaw":false,"richText":null,"renderedFileInfo":null,"shortPath":null,"tabSize":8,"topBannersInfo":{"overridingGlobalFundingFile":false,"globalPreferredFundingPath":null,"repoOwner":"LeidelLab","repoName":"Codon_occupancy_cal","showInvalidCitationWarning":false,"citationHelpUrl":"https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/about-citation-files","showDependabotConfigurationBanner":false,"actionsOnboardingTip":null},"truncated":false,"viewable":true,"workflowRedirectUrl":null,"symbols":{"timedOut":false,"notAnalyzed":false,"symbols":[]}},"copilotInfo":null,"copilotAccessAllowed":false,"csrf_tokens":{"/LeidelLab/Codon_occupancy_cal/branches":{"post":"R2a2_U2dm_25iyhlR2K6f8DH2kQiI5BBxSRZgcILmpYxr7ToFdRE7TxAvzYvuuB3kyHeaowbzjyPITUt_5fV1w"},"/repos/preferences":{"post":"5KRWfaL0QPTVsVZ-eCxtnGLfhDjP7o1OxLqB8Xe5C7YfjRvZ4YW4DzEtRoH6S-BslNsGlxifv3zXw8c_psQv8A"}}},"title":"Codon_occupancy_cal/Codon_occupancy_cal.sh at main · LeidelLab/Codon_occupancy_cal"}
+#!/bin/bash
+#!/bin/awk -f
+
+
+# This script is for calculating the codon occupancy of all codons (TGA,TAA and TAG excluded) in ribosome profiling data. 
+
+CDSFile=$1
+SamFile=$2
+  
+
+awk 'BEGIN{FS=OFS="\t"} NR==FNR{
+
+     if($1~/>/){
+     	split($1,header,">")
+     	Gene_name[NR]=header[2]
+     }else{
+     	Gene_length[Gene_name[NR-1]]=length($0)
+     
+        seq[Gene_name[NR-1]]=$0
+
+     }
+
+}NR!=FNR && $1!~/^@/ && $3!="*"{ 
+
+     if(length($10)<45){
+
+            ext=substr(seq[$3],$4+length($10),30)  # extend reads
+
+            seq_ext=$10""ext
+             
+        }
+     
+     if($4%3==1){frame=0}else if($4%3==2){frame=-1}else if($4%3==0){frame=1} 
+
+     if(length($10) >= 29 && length($10) <=31 && (frame==0 || frame==1)){ 
+     
+        if($4+16+frame > 45 && $4+16+frame < Gene_length[$3]-45){ # 15 codons at the start and end of CDS are excluded
+	
+     	     print substr(seq_ext,16+frame,3), substr(seq_ext,31+frame,3), substr(seq_ext,34+frame,3), substr(seq_ext,37+frame,3) # A,+5,+6 and +7 sites
+	    }
+     }
+
+}' $1 $2 | awk 'BEGIN{FS=OFS="\t"}{
+
+	 for(i=1;i<=4;i++){
+
+	 	if($i!~/N/ && $i!="TGA" && $i!="TAG" && $i!="TAA"){
+	 		sum[i]++
+            Codon[i"\t"$i]++
+        } 
+     }
+
+}END{
+    for(j in Codon){
+        
+        split(j,ja,"\t")
+        
+        # Normalized to the mean of +5, +6 and +7 sites
+        if(ja[1]==1){ 
+    	   
+           fA=Codon[j]/sum[1]
+           f1=Codon[2"\t"ja[2]]/sum[2]
+           f2=Codon[3"\t"ja[2]]/sum[3]
+           f3=Codon[4"\t"ja[2]]/sum[4]
+           print ja[2],fA*3/(f1+f2+f3)
+
+        }
+    }
+
+}' > Codon_occupancy.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
