@@ -12,7 +12,7 @@
 
 cd /home/jriina/ribo_profiling_jr/raw_data/annotations
 module load Blast/edirect/2020.08.17
-
+# sequences for undesired rnas had been improperly downloaded earlier. this script fixes that file. correct ensembl query is used.
 touch undesired.fa
 touch tRNAs.fa
 wget -O undesired.fa 'http://www.ensembl.org/biomart/martservice?query=<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE Query><Query  virtualSchemaName = "default" formatter = "FASTA" header = "0" uniqueRows = "0" count = "" datasetConfigVersion = "0.6" ><Dataset name = "hsapiens_gene_ensembl" interface = "default" ><Filter name = "transcript_biotype" value = "rRNA,snoRNA,snRNA"/><Attribute name = "ensembl_gene_id" /><Attribute name = "gene_exon_intron" /></Dataset></Query>'

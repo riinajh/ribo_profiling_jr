@@ -14,6 +14,6 @@ cd /data/users/jriina/ribo_profiling_jr/raw_data/annotations
 
 module load UHTS/Aligner/bowtie/1.2.0
 
-gunzip genome_primary_assembly.fa.gz
+gunzip genome_primary_assembly.fa.gz # had been inproperly executed in scripts 04. using the correct (unzipped) file
 bowtie-build genome_primary_assembly.fa annotated_genome
 echo 'genome succeeded'

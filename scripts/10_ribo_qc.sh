@@ -11,5 +11,5 @@
 #SBATCH --mail-type=error,end
 cd raw_data/annotations
 module load SequenceAnalysis/blat/36
-
+# A conversion from fasta format to two-bit format needed in a later step
 faToTwoBit genome_primary_assembly.fa GRCh38.dna.primary.assembly.2bit

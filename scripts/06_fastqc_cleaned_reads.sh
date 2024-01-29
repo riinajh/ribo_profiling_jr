@@ -12,7 +12,7 @@
 
 echo 'Running...'
 module add UHTS/Quality_control/fastqc/0.11.7
-
+# Now rerunning fastqc on the clipped+trimmed reads to confirm everything looks better overall.
 cd /home/jriina/ribo_profiling_jr/raw_data
 
 fastqc -o /home/jriina/ribo_profiling_jr/raw_data/fastqc -f fastq *_clipped._trimmed.fastq.gz

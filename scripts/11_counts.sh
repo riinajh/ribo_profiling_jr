@@ -11,14 +11,14 @@
 #SBATCH --mail-type=error,end
 
 cd raw_data/annotations
-
+# generating a file of counts of reads aligning to genes
 module load UHTS/Analysis/subread/2.0.1
 module load Subread/2.0.3-GCC-10.3.0
 featureCounts -T 8 -t CDS -g gene_id -a Homo_sapiens.GRCh38.108.gtf -o CDS_counts_raw.txt *_sorted_sorted.bam
 
 cut -f 1,7-10 CDS_counts_raw.txt > CDS_counts_processed.txt
 
-featureCounts \
+featureCounts \ #additionally, perform the same to figure out what all sources of reads are.
 -T 8 \
 -t exon \
 -g gene_biotype \

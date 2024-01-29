@@ -13,8 +13,8 @@
 cd /home/jriina/ribo_profiling_jr/raw_data
 
 module load UHTS/Quality_control/cutadapt/2.5
-
-for file in *.fastq.gz; do cutadapt -j 4 -q 25 -m 25 -a CTGTAGGCACCATCAAT --trimmed-only -o ${file:4:7}'_clipped.fastq.gz' ${file}; done
+#removing two things: first, the adapter sequence, second, randomized nucleotides added during library prep.
+for file in *.fastq.gz; do cutadapt -j 4 -q 25 -m 25 -a CTGTAGGCACCATCAAT --trimmed-only -o ${file:4:7}'_clipped.fastq.gz' ${file}; done 
 for file in *_clipped.fastq.gz; do cutadapt -j 4 -q 25 -m 25 -u -3 -o ${file:1:15}'_trimmed.fastq.gz' ${file}; done
 
 

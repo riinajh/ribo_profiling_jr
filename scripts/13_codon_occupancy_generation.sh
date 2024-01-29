@@ -12,6 +12,7 @@
 
 cd scripts
 echo $PWD
+#utilizing the codon occupancy script on all four samples
 #mv ../raw_data/annotations/isoforms.fa ../raw_data/annotations/isoforms.fa.gz
 gunzip ../raw_data/annotations/isoforms.fa.gz
 

@@ -10,9 +10,10 @@
 #SBATCH --mail-user=jacob.riina@students.unibe.ch
 #SBATCH --mail-type=error,end
 
-#touch scripts/Codon_occupancy_cal.sh
-#chmod 774 scripts/Codon_occupancy.sh
-#wget -O scripts/Codon_occupancy_cal.sh https://github.com/LeidelLab/Codon_occupancy_cal/blob/main/Codon_occupancy_cal.sh
+#obtaining the Leidel Lab codon occupancy script
+touch scripts/Codon_occupancy_cal.sh
+chmod 774 scripts/Codon_occupancy.sh
+wget -O scripts/Codon_occupancy_cal.sh https://github.com/LeidelLab/Codon_occupancy_cal/blob/main/Codon_occupancy_cal.sh
 cd raw_data/annotations
 
 module load UHTS/Aligner/bowtie/1.2.0

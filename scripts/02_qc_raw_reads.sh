@@ -10,7 +10,7 @@
 #SBATCH --mail-user=jacob.riina@students.unibe.ch
 #SBATCH --mail-type=error,end
 
-echo 'Running...'
+echo 'Running...' #performing inital fasqc analysis on the raw reads
 module add UHTS/Quality_control/fastqc/0.11.7
 mkdir /home/jriina/ribo_profiling_jr/raw_data/fastqc
 cd /home/jriina/ribo_profiling_jr/raw_data

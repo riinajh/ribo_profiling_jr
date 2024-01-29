@@ -1,3 +1,4 @@
-initializing...
-
-...done
+<b> This is my documented work for 467713-HS2023: RNA-sequencing with P. Sharma at Universitaet Bern. </b>  
+# Project Abstract
+<i> Ribosome profiling is a technique derived from RNA sequencing that allows for the determination of ribosome locations on transcripts - this, combined with differential expression and gene ontology analyses, provide a powerful look inside the cell’s translational landscape. In this analysis, the effects of tRNA U34 modification and its absence were studied to determine its effect on the cell. Data from a ribosome profiling assay were analyzed through a HPC-driven unix pipeline using common RNA-seq bioinformatic tools FastQC, Bowtie, and DESeq2, among others. It was observed that this modification causes specific codons, generally with adenosine in the third position, to become slowed during translation, and this change cascades into large-scale transcriptomic remodeling. These results demonstrate the importance of, beyond simply the integrity of sequence-level information, post-translational modifications and RNA maturation for the proper functioning of a cell’s translational machinery. 
+</i>

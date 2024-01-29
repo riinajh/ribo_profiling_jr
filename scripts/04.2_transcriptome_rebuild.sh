@@ -14,7 +14,7 @@ cd /data/users/jriina/ribo_profiling_jr/raw_data/annotations
 
 module load UHTS/Aligner/bowtie/1.2.0
 
-touch transcriptome.fa
+touch transcriptome.fa #had been improperly executed in script 04 due to wrong wget query earlier. 
 wget -O transcriptome.fa 'http://www.ensembl.org/biomart/martservice?query=<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Query>
 <Query  virtualSchemaName = "default" formatter = "FASTA" header = "0" uniqueRows = "0" count = "" datasetConfigVersion = "0.6" >

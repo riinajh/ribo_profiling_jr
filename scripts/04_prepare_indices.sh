@@ -13,7 +13,7 @@
 cd /home/jriina/ribo_profiling_jr/raw_data/annotations
 
 module load UHTS/Aligner/bowtie/1.2.0
-
+#using bowtie-build to create reference index files to align raw reads against.
 bowtie-build undesired.fa undesired_rnas
 echo 'undesired rnas succeeded'
 bowtie-build genome_primary_assembly.fa.gz annotated_genome
